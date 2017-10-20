@@ -83,13 +83,13 @@
     <%--搜索栏--%>
     <div class="searchBanner">
         <form action="/emplist.php">
-            <input name="ename1" placeholder="请输入姓名..." size="10"/>
+            <input name="name" placeholder="请输入姓名..." size="10"/>
             <input type="submit" value="模糊查询"/>
         </form>
 
         <form action="/emplist.php">
             <label>姓名
-                <input name="ename2" size="10"/>
+                <input name="ename" size="10"/>
             </label>
             <label>工资
                 <input name="lowsal" size="5">
@@ -121,10 +121,10 @@
                 <tr>
                     <td>${s.index + 1}</td>
                     <td>${e.empno}</td>
-                    <td><a href="/emp?empno1=${e.empno}">${e.name}</a></td>
+                    <td><a href="/emp?empno=${e.empno}">${e.name}</a></td>
                     <td>${e.salary}</td>
                     <td><a href="/dept?deptno=${e.department.deptno}">${e.department.name}</a></td>
-                    <td><a onclick="confirmDel();" href="/empdel.php?empno2=${e.empno}">删除</a></td>
+                    <td><a onclick="confirmDel();" href="/empdel.php?empno=${e.empno}">删除</a></td>
                 </tr>
             </s:iterator>
         </tbody>

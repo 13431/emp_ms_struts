@@ -9,9 +9,11 @@ import com.nf.empst.entity.Employee;
 import com.nf.empst.util.CommonUtil;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+
 
 public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
 
@@ -19,22 +21,27 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
     private EmpDAO empDAO = new EmpDAOImpl();
     private DeptDAO deptDAO = new DeptDAOImpl();
 
+    // 声明变量 for ModelDriven
+    private Employee employee = new Employee();
+
+    @Override
+    public Employee getModel() {
+        return employee;
+    }
+
+
     /**
-     * 员工列表模块
+     * 员工列表，处理来自 emplist.action 的请求
      */
-    // 用来接收请求中的参数
-    private String ename1, ename2, lowsal, hisal;
+    private String ename, lowsal, hisal;  // 接收参数
+    private List<Employee> employees;     // 封装返回数据
+    private List<Department> departments; // 封装返回数据
 
-    // 用来保存返回给 jsp 的数据
-    private List<Employee> employees;
-    private List<Department> departments;
-
-    // 处理来自 emplist.action 的请求
     public String emplist() throws Exception {
-        if (CommonUtil.notempty(ename1)) {
-            employees = empDAO.queryByEname(ename1);
-        } else if (CommonUtil.notallempty(ename2, lowsal, hisal)) {
-            employees = empDAO.criteriaByConditions(ename2, lowsal, hisal);
+        if (CommonUtil.notempty(employee.getName())) {
+            employees = empDAO.queryByEname(employee.getName());
+        } else if (CommonUtil.notallempty(ename, lowsal, hisal)) {
+            employees = empDAO.criteriaByConditions(ename, lowsal, hisal);
         } else {
             employees = empDAO.getAll();
         }
@@ -43,15 +50,47 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
     }
 
 
-
     /**
      * 员工保存添加模块
      */
-    // 变量定义
+    public void validateEmpsave() {
+        // 1. 验证用户名
+        String name = employee.getName();
+        if (StringUtils.isEmpty(name) || name.length() > 10) {
+            addFieldError("name", "姓名不能为空并且必须小于10位");
+        }
+
+        // 2. 验证工资
+        Float salary = employee.getSalary();
+        if(salary < 500F || salary > 50000F) {
+            addFieldError("salary", "工资输入不对");
+        }
+
+        // 3. 验证日期
+        Date hireDate = employee.getHireDate();
+        if (hireDate == null || hireDate.after(new Date())) {
+            addFieldError("hireDate", "时间输入无效");
+        }
+
+        if (hasErrors()) {
+            // 返回 input 页面，提醒错误。
+            departments = new DeptDAOImpl().getAll();
+        }
+    }
+
+    public String empsave() {
+        empDAO.persist(employee);
+        return SUCCESS;
+    }
+
+
+    /*
+    // 变量声明
     private String ename;
     private Long deptno;
     private float salary;
     private Date hireDate;
+
     // validateXxx 方法，会在 xxx 方法执行前执行，
     // 它用来在调用 xxx 方法前，对用户参数进行验证：
     //    1. 类型转换验证
@@ -98,7 +137,6 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
         }
     }
 
-    // 正式的代码执行函数
     public String empsave0() throws Exception {
         Department d = new Department();
         d.setDeptno(deptno);
@@ -106,50 +144,33 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
 
         return "success";
     }
-
-    private Employee employee;
-    public String empsave() {
-        empDAO.persist(employee);
-        return SUCCESS;
-    }
-
+    */
 
 
     /**
      * 删除员工模块
      */
-    private long empno2;
-
     public String empdel() throws Exception {
-        empDAO.remove(empno2);
+        empDAO.remove(employee.getEmpno());
         return "success";
     }
 
 
     ////////////// getter/setter ///////////
-
-    public List<Employee> getEmployees() {
-        return employees;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public String getEname1() {
-        return ename1;
+    public String getEname() {
+        return ename;
     }
 
-    public void setEname1(String ename1) {
-        this.ename1 = ename1;
-    }
-
-    public String getEname2() {
-        return ename2;
-    }
-
-    public void setEname2(String ename2) {
-        this.ename2 = ename2;
+    public void setEname(String ename) {
+        this.ename = ename;
     }
 
     public String getLowsal() {
@@ -168,36 +189,12 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
         this.hisal = hisal;
     }
 
-    public String getEname() {
-        return ename;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEname(String ename) {
-        this.ename = ename;
-    }
-
-    public Long getDeptno() {
-        return deptno;
-    }
-
-    public void setDeptno(Long deptno) {
-        this.deptno = deptno;
-    }
-
-    public float getSalary() {
-        return salary;
-    }
-
-    public void setSalary(float salary) {
-        this.salary = salary;
-    }
-
-    public Date getHireDate() {
-        return hireDate;
-    }
-
-    public void setHireDate(Date hireDate) {
-        this.hireDate = hireDate;
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     public List<Department> getDepartments() {
@@ -206,29 +203,5 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
 
     public void setDepartments(List<Department> departments) {
         this.departments = departments;
-    }
-
-    public long getEmpno2() {
-        return empno2;
-    }
-
-    public void setEmpno2(long empno2) {
-        this.empno2 = empno2;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    @Override
-    public Employee getModel() {
-        if(employee == null) {
-            employee = new Employee();
-        }
-        return employee;
     }
 }

@@ -21,7 +21,7 @@
         </action>
 
         <action name="empsave" class="com.nf.empst.action.EmpAction" method="empsave">
-            <result type="chain">emplist</result>
+            <result type="redirectAction">emplist</result>
             <result name="input">/view/emp/emplist.jsp</result>
         </action>
 
