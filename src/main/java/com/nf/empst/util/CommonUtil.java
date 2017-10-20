@@ -16,12 +16,12 @@ public class CommonUtil {
      * 不全为空
      */
     public static boolean notallempty(String... inputs) {
-        if(inputs == null)
+        if (inputs == null)
             return false;
 
         boolean res = false;
         for (String input : inputs) {
-            if(notempty(input)) {
+            if (notempty(input)) {
                 res = true;
                 break;
             }

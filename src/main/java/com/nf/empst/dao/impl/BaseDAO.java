@@ -1,4 +1,4 @@
-package com.nf.empst.dao;
+package com.nf.empst.dao.impl;
 
 
 import com.nf.empst.util.EMUtil;

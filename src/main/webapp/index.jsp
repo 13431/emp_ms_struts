@@ -1,1 +1,1 @@
-<% response.sendRedirect("/emplist.html"); %>
+<% response.sendRedirect("/emplist.php"); %>

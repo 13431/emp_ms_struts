@@ -78,16 +78,16 @@
 
 <div>
 
-    <h2><a href="/emplist.html">所有员工</a></h2>
+    <h2><a href="/emplist.php">所有员工</a></h2>
 
     <%--搜索栏--%>
     <div class="searchBanner">
-        <form action="/emplist.html">
+        <form action="/emplist.php">
             <input name="ename1" placeholder="请输入姓名..." size="10"/>
             <input type="submit" value="模糊查询"/>
         </form>
 
-        <form action="/emplist.html">
+        <form action="/emplist.php">
             <label>姓名
                 <input name="ename2" size="10"/>
             </label>
@@ -121,10 +121,10 @@
                 <tr>
                     <td>${s.index + 1}</td>
                     <td>${e.empno}</td>
-                    <td><a href="/emp?empno=${e.empno}">${e.name}</a></td>
+                    <td><a href="/emp?empno1=${e.empno}">${e.name}</a></td>
                     <td>${e.salary}</td>
                     <td><a href="/dept?deptno=${e.department.deptno}">${e.department.name}</a></td>
-                    <td><a onclick="confirmDel();" href="/empdel.html?empno=${e.empno}">删除</a></td>
+                    <td><a onclick="confirmDel();" href="/empdel.php?empno2=${e.empno}">删除</a></td>
                 </tr>
             </s:iterator>
         </tbody>
@@ -137,9 +137,9 @@
 <%-- 增加员工表单开始 --%>
 <div class="addForm">
     <s:form action="empsave" method="POST">
-        <s:textfield name="ename" label="用户名字" />
-        <s:select name="deptno" list="departments" listKey="deptno" listValue="name" label="部门" />
-        <s:textfield name="salary" label="工资" type="number" />
+        <s:textfield name="name" label="用户名字" />
+        <s:select name="department.deptno" list="departments" listKey="deptno" listValue="name" label="部门" />
+        <s:textfield name="salary" label="工资" type="number" maxlength="5" />
         <s:textfield name="hireDate" label="雇佣日期" type="date" />
         <s:submit value="提交" />
     </s:form>

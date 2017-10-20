@@ -1,33 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC
-        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "-//Apache Software  //DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
     
     <constant name="struts.devMode" value="true" />
     <!--默认的扩展名为 .action，但是我们可以定制它-->
-    <constant name="struts.action.extension" value="html" />
-    
-    <package name="default" namespace="/" extends="struts-default">
+    <constant name="struts.action.extension" value="php" />
 
+
+    <!--员工模块-->
+    <package name="emp" namespace="/" extends="struts-default">
         <!--
           url: /emplist
           由哪个类 的哪个方法 去处理，
           如果请求成功，应该由哪个JSP去渲染页面
         -->
         <action name="emplist" class="com.nf.empst.action.EmpAction" method="emplist">
-            <result name="success">/view/emplist.jsp</result>
+            <result name="success">/view/emp/emplist.jsp</result>
         </action>
 
         <action name="empsave" class="com.nf.empst.action.EmpAction" method="empsave">
             <result type="chain">emplist</result>
-            <result name="input">/view/emplist.jsp</result>
+            <result name="input">/view/emp/emplist.jsp</result>
         </action>
 
         <action name="empdel" class="com.nf.empst.action.EmpAction" method="empdel">
             <result type="redirectAction">emplist</result>
         </action>
-        
+    </package>
+
+
+
+    <!--图书模块-->
+    <package name="book" extends="struts-default">
+        <action name="bookinit" class="com.nf.empst.action.BookAction" method="bookinit">
+            <result type="redirectAction">booklist</result>
+        </action>
+
+        <action name="booklist" class="com.nf.empst.action.BookAction" method="booklist">
+            <result type="dispatcher" name="success">
+                /view/book/booklist.jsp
+            </result>
+        </action>
+
+        <action name="bookdel" class="com.nf.empst.action.BookAction" method="bookdel">
+            <result type="redirectAction">booklist</result>
+        </action>
+
+        <!--进入添加页面，包含 form -->
+        <!--如果不写 method，默认会调用 execute -->
+        <!--如果不写 class/method，默认会调用 ActionSupport#execute -->
+        <action name="bookadd">
+            <result>/view/book/bookadd.jsp</result>
+        </action>
+        <action name="booksave" class="com.nf.empst.action.BookAction" method="booksave">
+            <result type="redirectAction">booklist</result>
+        </action>
     </package>
     
 </struts>
