@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVC in JavaScript</title>
+
+</head>
+<body>
+
+<button id="bbb">点我，或其他</button>
+
+<script>
+    // 模型层，数据层，用来初始化/获取/生成数据
+    var M = {
+        name: "克林顿",
+        country: "美国"
+    };
+
+    // 展现层
+    var V = {
+        console: function (data) {
+            console.log(data);
+        },
+        alert: function (data) {
+            alert(data);
+        }
+    };
+
+    // 控制层，路由器，将 M 跟 V 联系在一起
+    var C = {
+        alertCountry: function () {
+            V.alert(M.country)
+        },
+
+        consoleName: function () {
+            V.console(M.name);
+        }
+    };
+    var btn = document.getElementById("bbb");
+    btn.onclick =  C.alertCountry;
+    btn.onmouseover = C.consoleName;
+
+</script>
+
+
+</body>
+</html>
