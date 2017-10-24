@@ -21,7 +21,8 @@ dependencies {
             "javax.servlet:jstl:1.2",
             "cn.easyproject:ojdbc7:12+",
 
-            "org.apache.struts:struts2-core:2.5.13"
+            "org.apache.struts:struts2-core:2.5.13",
+            "opensymphony:sitemesh:2.4.2",
 
             // 二级缓存
             // "org.hibernate:hibernate-ehcache:5.2.11.Final",

@@ -7,17 +7,26 @@ import com.nf.empst.dao.impl.EmpDAOImpl;
 import com.nf.empst.entity.Department;
 import com.nf.empst.entity.Employee;
 import com.nf.empst.util.CommonUtil;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Request;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
-public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
+public class EmpAction extends ActionSupport implements ModelDriven<Employee>, RequestAware {
 
     // 声明用到的 DAO
+    private Map<String, Object> request;
     private EmpDAO empDAO = new EmpDAOImpl();
     private DeptDAO deptDAO = new DeptDAOImpl();
 
@@ -34,18 +43,17 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
      * 员工列表，处理来自 emplist.action 的请求
      */
     private String ename, lowsal, hisal;  // 接收参数
-    private List<Employee> employees;     // 封装返回数据
-    private List<Department> departments; // 封装返回数据
 
     public String emplist() throws Exception {
         if (CommonUtil.notempty(employee.getName())) {
-            employees = empDAO.queryByEname(employee.getName());
+            request.put("emps", empDAO.queryByEname(employee.getName()));
         } else if (CommonUtil.notallempty(ename, lowsal, hisal)) {
-            employees = empDAO.criteriaByConditions(ename, lowsal, hisal);
+            request.put("emps", empDAO.criteriaByConditions(ename, lowsal, hisal));
         } else {
-            employees = empDAO.getAll();
+            request.put("emps", empDAO.getAll());
         }
-        departments = deptDAO.getAll();
+        request.put("depts", deptDAO.getAll());
+
         return "success";
     }
 
@@ -74,7 +82,7 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
 
         if (hasErrors()) {
             // 返回 input 页面，提醒错误。
-            departments = new DeptDAOImpl().getAll();
+            request.put("depts", new DeptDAOImpl().getAll());
         }
     }
 
@@ -156,6 +164,11 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
     }
 
 
+    @Override
+    public void setRequest(Map<String, Object> request) {
+        this.request = request;
+    }
+
     ////////////// getter/setter ///////////
     public Employee getEmployee() {
         return employee;
@@ -187,21 +200,5 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee> {
 
     public void setHisal(String hisal) {
         this.hisal = hisal;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
-
-    public List<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(List<Department> departments) {
-        this.departments = departments;
     }
 }

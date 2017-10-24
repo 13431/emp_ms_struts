@@ -13,14 +13,14 @@
         }
 
         .searchBanner {
-            width: 60%;
+            width: 75%;
             margin-bottom: 2em;
             display: flex;
             justify-content: space-between;
         }
 
         .list {
-            width: 60%;
+            width: 75%;
         }
 
         .list, .list th, .list td {
@@ -39,12 +39,12 @@
 
         .addForm {
             position: fixed;
-            right: 2em;
-            bottom: 2em;
+            right: 1em;
+            bottom: 1em;
             padding: 10px 20px 10px 20px;
-            border: 1px solid lightgrey;
+            background: white;
+            box-shadow: 0 0 3px #999, 0 0 6px #6a6;
         }
-
 
         .addForm input, .addForm select {
             border: 0;
@@ -53,7 +53,6 @@
             box-shadow: 1px 1px 3px grey;
             padding: 5px 10px;
         }
-
 
         .addForm input[type='submit'] {
             margin-top: 20px;
@@ -75,6 +74,7 @@
     <s:head />
 </head>
 <body>
+
 
 <div>
 
@@ -117,7 +117,7 @@
             </tr>
         </thead>
         <tbody>
-            <s:iterator value="employees" var="e" status="s">
+            <s:iterator value="#request.emps" var="e" status="s">
                 <tr>
                     <td>${s.index + 1}</td>
                     <td>${e.empno}</td>
@@ -138,7 +138,7 @@
 <div class="addForm">
     <s:form action="empsave" method="POST">
         <s:textfield name="name" label="用户名字" />
-        <s:select name="department.deptno" list="departments" listKey="deptno" listValue="name" label="部门" />
+        <s:select name="department.deptno" list="#request.depts" listKey="deptno" listValue="name" label="部门" />
         <s:textfield name="salary" label="工资" type="number" maxlength="5" />
         <s:textfield name="hireDate" label="雇佣日期" type="date" />
         <s:submit value="提交" />
@@ -146,6 +146,10 @@
 </div>
 <%-- 增加员工表单结束 --%>
 
-<s:debug />
+
+<div>
+    <s:debug />
+</div>
+
 </body>
 </html>

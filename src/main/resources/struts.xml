@@ -3,7 +3,7 @@
         "-//Apache Software  //DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-    
+    <!--开启调试模式-->
     <constant name="struts.devMode" value="true" />
     <!--默认的扩展名为 .action，但是我们可以定制它-->
     <constant name="struts.action.extension" value="php" />
@@ -21,7 +21,7 @@
         </action>
 
         <action name="empsave" class="com.nf.empst.action.EmpAction" method="empsave">
-            <result type="redirectAction">emplist</result>
+            <result type="chain">emplist</result>
             <result name="input">/view/emp/emplist.jsp</result>
         </action>
 
@@ -29,7 +29,6 @@
             <result type="redirectAction">emplist</result>
         </action>
     </package>
-
 
 
     <!--图书模块-->
