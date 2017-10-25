@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software  //DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <package name="login" namespace="/s" extends="mp">
+        <action name="signup" class="com.nf.empst.action.LoginAction" method="signup">
+            <result name="success">/view/login/demo.jsp</result>
+        </action>
+    </package>
+</struts>

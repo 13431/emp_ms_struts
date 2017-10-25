@@ -149,7 +149,30 @@
 
 <div>
     <s:debug />
+    <button id="clickme">点我，点我，快点我</button>
 </div>
+
+
+<script>
+
+    function clickmenow() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4) {
+                console.log(xhr.responseText);
+                let emps = JSON.parse(xhr.responseText);
+                for(const e of emps) {
+                    console.log(e.name + " : " + e.salary);
+                }
+            }
+        };
+        xhr.open("GET", "/test.php", true);
+        xhr.send();
+    }
+
+    document.getElementById("clickme").addEventListener("click", clickmenow);
+
+</script>
 
 </body>
 </html>

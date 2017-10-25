@@ -4,26 +4,26 @@ import com.nf.empst.dao.DeptDAO;
 import com.nf.empst.dao.EmpDAO;
 import com.nf.empst.dao.impl.DeptDAOImpl;
 import com.nf.empst.dao.impl.EmpDAOImpl;
-import com.nf.empst.entity.Department;
 import com.nf.empst.entity.Employee;
 import com.nf.empst.util.CommonUtil;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
-import org.apache.struts2.interceptor.SessionAware;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Request;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 
 public class EmpAction extends ActionSupport implements ModelDriven<Employee>, RequestAware {
+
+    private List<Employee> emps;
+    public String test() throws IOException {
+        emps = empDAO.getAll();
+        return "jsonsuccess";
+    }
 
     // 声明用到的 DAO
     private Map<String, Object> request;
@@ -200,5 +200,13 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee>, R
 
     public void setHisal(String hisal) {
         this.hisal = hisal;
+    }
+
+    public List<Employee> getEmps() {
+        return emps;
+    }
+
+    public void setEmps(List<Employee> emps) {
+        this.emps = emps;
     }
 }
