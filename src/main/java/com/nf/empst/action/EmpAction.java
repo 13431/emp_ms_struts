@@ -19,9 +19,9 @@ import java.util.Map;
 
 public class EmpAction extends ActionSupport implements ModelDriven<Employee>, RequestAware {
 
-    private List<Employee> emps;
+    // /test.php
     public String test() throws IOException {
-        emps = empDAO.getAll();
+        request.put("xxx", empDAO.getAll());
         return "jsonsuccess";
     }
 
@@ -200,13 +200,5 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee>, R
 
     public void setHisal(String hisal) {
         this.hisal = hisal;
-    }
-
-    public List<Employee> getEmps() {
-        return emps;
-    }
-
-    public void setEmps(List<Employee> emps) {
-        this.emps = emps;
     }
 }

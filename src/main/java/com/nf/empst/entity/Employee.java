@@ -36,7 +36,7 @@ public class Employee {
     private Employee manager;
 
     @OneToMany(mappedBy = "manager")
-    private List<Employee> memebers;
+    private List<Employee> members;
 
     public Employee() {
     }
@@ -123,12 +123,12 @@ public class Employee {
         this.manager = manager;
     }
 
-    public List<Employee> getMemebers() {
-        return memebers;
+    public List<Employee> getMembers() {
+        return members;
     }
 
-    public void setMemebers(List<Employee> memebers) {
-        this.memebers = memebers;
+    public void setMembers(List<Employee> memebers) {
+        this.members = memebers;
     }
 
     @Override

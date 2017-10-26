@@ -152,6 +152,10 @@
     <button id="clickme">点我，点我，快点我</button>
 </div>
 
+<table id="xxxx">
+
+</table>
+
 
 <script>
 
@@ -161,9 +165,13 @@
             if(xhr.readyState == 4) {
                 console.log(xhr.responseText);
                 let emps = JSON.parse(xhr.responseText);
-                for(const e of emps) {
-                    console.log(e.name + " : " + e.salary);
-                }
+
+                var result = emps.map(function (e) {
+                    return "<tr><td>" + e.name + "</td><td>" + e.s + "</td></tr>";
+                }, emps).join("\n");
+
+                document.querySelector("#xxxx").innerHTML = result;
+
             }
         };
         xhr.open("GET", "/test.php", true);

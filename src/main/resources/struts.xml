@@ -36,7 +36,7 @@
             <!--plainText 返回文本的内容-->
             <!--stream 返回二进制/文本流，可以用于上传下载，可以用于操作 json-->
             <result name="jsonsuccess" type="json">
-                <param name="root">emps</param>
+                <param name="root">#request.xxx.{#{"name": name, "s": salary}}</param>
             </result>
 
             <result name="testsuccess" type="plainText">
