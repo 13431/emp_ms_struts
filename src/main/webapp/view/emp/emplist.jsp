@@ -149,36 +149,31 @@
 
 <div>
     <s:debug />
-    <button id="clickme">点我，点我，快点我</button>
 </div>
 
-<table id="xxxx">
-
-</table>
+<div style="margin-top: 30px;">
+    <table id="xxxx" style="background: black; color: gold; padding: 10px 30px;">
+        <tr><td>点我，点我，快点我</td></tr>
+    </table>
+</div>
 
 
 <script>
 
     function clickmenow() {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "/test.php", true);
         xhr.onreadystatechange = function () {
-            if(xhr.readyState == 4) {
-                console.log(xhr.responseText);
-                let emps = JSON.parse(xhr.responseText);
-
-                var result = emps.map(function (e) {
-                    return "<tr><td>" + e.name + "</td><td>" + e.s + "</td></tr>";
-                }, emps).join("\n");
-
-                document.querySelector("#xxxx").innerHTML = result;
-
+            if(xhr.readyState === 4) {
+                document.querySelector("#xxxx").innerHTML = JSON.parse(xhr.responseText).map(function (e) {
+                    return "<tr><td>" + e.name + "</td><td>" + e.salary + "</td></tr>";
+                }).join("\n");
             }
         };
-        xhr.open("GET", "/test.php", true);
         xhr.send();
     }
 
-    document.getElementById("clickme").addEventListener("click", clickmenow);
+    document.getElementById("xxxx").addEventListener("click", clickmenow);
 
 </script>
 

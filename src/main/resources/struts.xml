@@ -3,9 +3,9 @@
         "-//Apache Software  //DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 
+
 <struts>
     <!--开启调试模式-->
-    <!--常量-->
     <constant name="struts.devMode" value="true" />
     <!--默认的扩展名为 .action，但是我们可以定制它-->
     <constant name="struts.action.extension" value="php,hph,hhp" />
@@ -27,7 +27,6 @@
         </action>
 
         <action name="*" class="com.nf.empst.action.EmpAction" method="{1}">
-            <result type="redirectAction">emplist</result>
 
             <!--dispatcher 转发到某个 html/jsp-->
             <!--chain      转发到某个 action-->
@@ -35,8 +34,19 @@
             <!--redirectAction 重定向某个 action-->
             <!--plainText 返回文本的内容-->
             <!--stream 返回二进制/文本流，可以用于上传下载，可以用于操作 json-->
+            <!--json 将对象序列化为 json 字符串并返回，需要 struts2-json-plugin 支持-->
+
+            <result name="jsonsuccess0" type="json">
+                <param name="root">#request.xxx.{#{"name": name, "salary": salary}}</param>
+            </result>
+
             <result name="jsonsuccess" type="json">
-                <param name="root">#request.xxx.{#{"name": name, "s": salary}}</param>
+                <param name="root">#request.xxx</param>
+                <param name="excludeProperties">
+                    \[\d+\]\.department\.employees,
+                    \[\d+\]\.members,
+                    \[\d+\]\.manager
+                </param>
             </result>
 
             <result name="testsuccess" type="plainText">
@@ -45,6 +55,8 @@
             </result>
 
             <result name="input">/view/emp/emplist.jsp</result>
+
+            <result type="redirectAction">emplist</result>
         </action>
     </package>
 
