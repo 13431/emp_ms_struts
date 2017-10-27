@@ -12,18 +12,29 @@
 
 
     <package name="mp" abstract="true" extends="json-default">
+        <global-results>
+            <result name="error">/error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error" />
+        </global-exception-mappings>
     </package>
 
 
     <!--员工模块-->
     <package name="emp" namespace="/" extends="mp" strict-method-invocation="false">
+
+        <global-results>
+            <result>/view/emp/emplist.jsp</result>
+        </global-results>
+
         <!--
           url: /emplist
           由哪个类 的哪个方法 去处理，
           如果请求成功，应该由哪个JSP去渲染页面
         -->
         <action name="emplist" class="com.nf.empst.action.EmpAction" method="emplist">
-            <result name="success">/view/emp/emplist.jsp</result>
         </action>
 
         <action name="*" class="com.nf.empst.action.EmpAction" method="{1}">

@@ -147,10 +147,6 @@
 <%-- 增加员工表单结束 --%>
 
 
-<div>
-    <s:debug />
-</div>
-
 <div style="margin-top: 30px;">
     <table id="xxxx" style="background: black; color: gold; padding: 10px 30px;">
         <tr><td>点我，点我，快点我</td></tr>
@@ -176,6 +172,8 @@
     document.getElementById("xxxx").addEventListener("click", clickmenow);
 
 </script>
+
+
 
 </body>
 </html>

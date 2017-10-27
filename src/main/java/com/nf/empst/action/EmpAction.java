@@ -45,6 +45,10 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee>, R
     private String ename, lowsal, hisal;  // 接收参数
 
     public String emplist() throws Exception {
+
+        addActionError("ksjfdksjfkj");
+        addFieldError("name", "你不应该有名字");
+
         if (CommonUtil.notempty(employee.getName())) {
             request.put("emps", empDAO.queryByEname(employee.getName()));
         } else if (CommonUtil.notallempty(ename, lowsal, hisal)) {
@@ -52,7 +56,11 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee>, R
         } else {
             request.put("emps", empDAO.getAll());
         }
-        request.put("depts", deptDAO.getAll());
+        try {
+            request.put("depts",deptDAO.getAll());
+        }catch (Exception e){
+            return "departerror";
+        }
 
         return "success";
     }
@@ -162,6 +170,8 @@ public class EmpAction extends ActionSupport implements ModelDriven<Employee>, R
         empDAO.remove(employee.getEmpno());
         return "success";
     }
+
+
 
 
     @Override

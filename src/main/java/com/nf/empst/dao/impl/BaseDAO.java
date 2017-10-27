@@ -36,6 +36,7 @@ public abstract class BaseDAO<T> {
      */
     public List<T> getAll() {
         EntityManager em = EMUtil.getEntityManager();
+        em.close();
         List<T> resList = em.unwrap(Session.class).createCriteria(entityClazz).list();
         em.close();
         return resList;
